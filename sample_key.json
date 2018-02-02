@@ -1,0 +1,8 @@
+[
+  {
+    "AccessKeyId": "foo",
+    "AccessKeySecret": "bar",
+    "rc_domain": "foobar.com",
+    "rc_format": "json"
+  }
+]

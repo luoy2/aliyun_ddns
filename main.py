@@ -1,19 +1,27 @@
 import requests
 import json
-import datetime
 import logging
 import logging.handlers
+import os
+
 from aliyunsdkcore import client
 from aliyunsdkalidns.request.v20150109 import DescribeDomainRecordsRequest
-from aliyunsdkalidns.request.v20150109 import DescribeDomainRecordInfoRequest
 from aliyunsdkalidns.request.v20150109 import UpdateDomainRecordRequest
 
+KEY_FILE_NAME = 'key.json'
+
+
+def ensure_dir(file_path):
+    directory = os.path.dirname(file_path)
+    if not os.path.exists(directory):
+        os.makedirs(directory)
 
 
 class DNS(object):
     logging.basicConfig(level=0)
     logger = logging.getLogger(__name__)
     logger.setLevel(logging.DEBUG)
+    ensure_dir('logs')
     fh = logging.handlers.RotatingFileHandler('logs/aliyun_ddns_record.log',
                                                           mode='a',
                                                           maxBytes=10 * 1024 * 1024,
@@ -24,7 +32,7 @@ class DNS(object):
     logger.addHandler(fh)
 
     def __init__(self):
-        with open('key.json', 'r') as f:
+        with open(KEY_FILE_NAME, 'r') as f:
             self.s = json.loads(f.read())[0]
         self.clt = client.AcsClient(self.s['AccessKeyId'], self.s['AccessKeySecret'])
         self.dns_domain, self.rc_format = self.s['rc_domain'], self.s['rc_format']
@@ -44,6 +52,8 @@ class DNS(object):
                     'Type'], j['Value'], j['RecordId'], j['TTL']
                 return (rc_rr, rc_type, rc_value, rc_record_id, rc_ttl)
         return ([None] * 5)
+
+
 
 
     def getMyIp(self):
