@@ -1,3 +1,4 @@
+
 import requests
 import json
 import logging
@@ -18,7 +19,6 @@ def ensure_dir(file_path):
 
 
 class DNS(object):
-    logging.basicConfig(level=0)
     logger = logging.getLogger(__name__)
     logger.setLevel(logging.INFO)
     ensure_dir('logs/')
@@ -47,7 +47,7 @@ class DNS(object):
         result_dict = json.JSONDecoder().decode(result)
         result_list = result_dict['DomainRecords']['Record']
         for j in result_list:
-            self.logger.info('Subdomain：' + j['RR'] + ' ' + '| RecordId：' + j['RecordId'])
+            self.logger.info('\nSubdomain：{0}\nRecordId: {1}\n'.format(j['RR'], j['RecordId']))
             if j['RR'] == 'usdb':
                 rc_rr, rc_type, rc_value, rc_record_id, rc_ttl = j['RR'], j[
                     'Type'], j['Value'], j['RecordId'], j['TTL']
@@ -90,6 +90,7 @@ class DNS(object):
 
 
 if __name__ =='__main__':
+    logging.basicConfig(level=20)
     d = DNS()
     d.worker()
 
