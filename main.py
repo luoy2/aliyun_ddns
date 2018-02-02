@@ -65,7 +65,7 @@ class DNS(object):
             return None
 
     def update_dns(self, rc_rr, rc_type, rc_value, rc_record_id, rc_ttl):
-        self.logger.info(f'about updating ip : {rc_value}')
+        self.logger.info('about to update ip : {}'.format(rc_value))
         request = UpdateDomainRecordRequest.UpdateDomainRecordRequest()
         request.set_RR(rc_rr)
         request.set_Type(rc_type)
@@ -82,7 +82,7 @@ class DNS(object):
         rc_rr, rc_type, rc_value, rc_record_id, rc_ttl = self.check_records()
         cur_ip = self.getMyIp()
         if cur_ip != rc_value:
-            self.update_dns()
+            self.update_dns(rc_rr, rc_type, rc_value, rc_record_id, rc_ttl)
 
 
 
