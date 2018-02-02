@@ -14,14 +14,14 @@ KEY_FILE_NAME = 'key.json'
 def ensure_dir(file_path):
     directory = os.path.dirname(file_path)
     if not os.path.exists(directory):
-        os.makedirs(directory)
+        os.makedirs(directory, mode=0o777)
 
 
 class DNS(object):
     logging.basicConfig(level=0)
     logger = logging.getLogger(__name__)
     logger.setLevel(logging.DEBUG)
-    ensure_dir('logs')
+    ensure_dir('logs/')
     fh = logging.handlers.RotatingFileHandler('logs/aliyun_ddns_record.log',
                                                           mode='a',
                                                           maxBytes=10 * 1024 * 1024,
@@ -64,6 +64,7 @@ class DNS(object):
             self.logger.exception('getMyIp:' + str(e))
             return None
 
+
     def update_dns(self, rc_rr, rc_type, rc_value, rc_record_id, rc_ttl):
         self.logger.info('about to update ip : {}'.format(rc_value))
         request = UpdateDomainRecordRequest.UpdateDomainRecordRequest()
@@ -82,7 +83,7 @@ class DNS(object):
         rc_rr, rc_type, rc_value, rc_record_id, rc_ttl = self.check_records()
         cur_ip = self.getMyIp()
         if cur_ip != rc_value:
-            self.update_dns(rc_rr, rc_type, rc_value, rc_record_id, rc_ttl)
+            self.update_dns(rc_rr, rc_type, cur_ip, rc_record_id, rc_ttl)
 
 
 
