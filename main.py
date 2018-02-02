@@ -20,7 +20,7 @@ def ensure_dir(file_path):
 class DNS(object):
     logging.basicConfig(level=0)
     logger = logging.getLogger(__name__)
-    logger.setLevel(logging.DEBUG)
+    logger.setLevel(logging.INFO)
     ensure_dir('logs/')
     fh = logging.handlers.RotatingFileHandler('logs/aliyun_ddns_record.log',
                                                           mode='a',
@@ -32,7 +32,8 @@ class DNS(object):
     logger.addHandler(fh)
 
     def __init__(self):
-        with open(KEY_FILE_NAME, 'r') as f:
+        dir_path = os.path.dirname(os.path.realpath(__file__))
+        with open(dir_path+'/' + KEY_FILE_NAME, 'r') as f:
             self.s = json.loads(f.read())[0]
         self.clt = client.AcsClient(self.s['AccessKeyId'], self.s['AccessKeySecret'])
         self.dns_domain, self.rc_format = self.s['rc_domain'], self.s['rc_format']
