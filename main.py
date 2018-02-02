@@ -47,7 +47,6 @@ class DNS(object):
         result_dict = json.JSONDecoder().decode(result)
         result_list = result_dict['DomainRecords']['Record']
         for j in result_list:
-            self.logger.info('\nSubdomain：{0}\nRecordId: {1}\n'.format(j['RR'], j['RecordId']))
             if j['RR'] == 'usdb':
                 rc_rr, rc_type, rc_value, rc_record_id, rc_ttl = j['RR'], j[
                     'Type'], j['Value'], j['RecordId'], j['TTL']
