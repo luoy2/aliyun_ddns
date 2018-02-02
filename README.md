@@ -22,7 +22,7 @@ wrapped into class, and support python3.
 
 # how to use:
 0. `pip3 install -r requirements.txt`
-1. request access key and access secret from aliyun(https://ak-console.aliyun.com/?spm=a3c0i.o25698zh.a3.2.7f43cc3anqW2D#/):
+1. request access key and access secret from [aliyun](https://ak-console.aliyun.com/?spm=a3c0i.o25698zh.a3.2.7f43cc3anqW2D#/):
 2. put the access key, secret, domain into a json file like `sample_key.json`
 3. change global vairable `KEY_FILE_NAME` as your key file name
 4. run main in a task scheduler
