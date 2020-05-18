@@ -26,3 +26,10 @@ wrapped into class, and support python3.
 2. put the access key, secret, domain into a json file like `sample_key.json`
 3. change global vairable `KEY_FILE_NAME` as your key file name
 4. run main in a task scheduler
+
+for e.g.
+```
+chmod -R a+x /opt/aliyun_ddns
+crontab -e
+*/10 * * * * /opt/anaconda3/bin/python /opt/aliyun_ddns/main.py
+```
